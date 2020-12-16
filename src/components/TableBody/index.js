@@ -8,6 +8,7 @@ function TableBody(props) {
                     return (
                         <TableRow 
                             key={`${person.name.first} ${person.name.last}`}
+                            thumbnail={person.picture.thumbnail}
                             firstName={person.name.first}
                             lastName={person.name.last}
                         />
