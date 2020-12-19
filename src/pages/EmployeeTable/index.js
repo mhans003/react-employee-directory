@@ -27,7 +27,6 @@ function EmployeeTable() {
     useEffect(() => {
         API.getEmployees(limit)
             .then(results => {
-                //setEmployeeList(employeeList.concat(results.data.results));
                 setEmployeeList(results.data.results);
                 //Initially, set the filtered list to the initial results.
                 setFilteredList(results.data.results);
