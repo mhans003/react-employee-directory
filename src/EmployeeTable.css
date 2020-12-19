@@ -1,0 +1,9 @@
+body {
+    font-family: 'Work Sans', sans-serif !important;
+}
+
+@media screen and (max-width: 319px) {
+    td {
+        font-size: 0.9rem;
+    }
+}

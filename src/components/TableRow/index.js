@@ -4,7 +4,7 @@ function TableRow(props) {
     if(props.isThead) {
         return (
             <tr>
-                <th scope="col"><i className="fad fa-camera-alt ml-3"></i></th>
+                <th className="d-none d-sm-block" scope="col"><i className="fad fa-camera-alt ml-3"></i></th>
                 <th scope="col">First</th>
                 <th scope="col">Last</th>
                 <th scope="col"></th>
@@ -13,7 +13,7 @@ function TableRow(props) {
     } else {
         return (
             <tr>
-                <td>
+                <td className="d-none d-sm-block">
                     <img 
                         src={props.thumbnail} 
                         alt="No Photo"

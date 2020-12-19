@@ -7,6 +7,7 @@ import Table from "../../components/Table";
 import Limit from "../../components/Limit";
 import EmployeeProfile from "../../components/EmployeeProfile";
 import Filter from "../../components/Filter";
+import "../../EmployeeTable.css"
 
 function EmployeeTable() {
     //Set state 
