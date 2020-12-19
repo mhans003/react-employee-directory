@@ -7,7 +7,9 @@ import Table from "../../components/Table";
 import Limit from "../../components/Limit";
 import EmployeeProfile from "../../components/EmployeeProfile";
 import Filter from "../../components/Filter";
+import Sort from "../../components/Sort";
 import "../../EmployeeTable.css"
+
 
 function EmployeeTable() {
     //Set state 
@@ -21,7 +23,8 @@ function EmployeeTable() {
     const [filterField, setFilterField] = useState("");
     const [filterValue, setFilterValue] = useState("");
 
-    //Modal State
+    const [sortedList, setSortedList] = useState([]);
+
     const [modalShow, setModalShow] = useState(false);
 
     useEffect(() => {
@@ -30,7 +33,7 @@ function EmployeeTable() {
                 setEmployeeList(results.data.results);
                 //Initially, set the filtered list to the initial results.
                 setFilteredList(results.data.results);
-                console.log(employeeList);
+                console.log(filteredList);
             })
             .catch(error => {
                 setError("Something went wrong")
@@ -40,6 +43,54 @@ function EmployeeTable() {
     const handleLimitChange = event => {
         setEmployeeList([]);
         setLimit(event.target.value);
+    };
+
+
+    //Configure the function which will be passed into the sort() function depending on key selected to sort.
+    const configureSort = function(fields, reversed, format, sub){
+        let key;
+
+        if(format) {
+            key = function(x) {
+                if(sub) {
+                    return format(x[fields][sub]);
+                } else {
+                    return format(x[fields]);
+                } 
+            }
+        } else {
+            key = function(x) {
+                if(sub) {
+                    return x[fields][sub]; 
+                } else {
+                    return x[fields];
+                }
+            }
+        }
+
+        console.log(key);
+     
+        //If reversed is equal to false, we want to sort ascending. Otherwise, sort descending.
+        reversed = !reversed ? 1 : -1;
+     
+        //Return the function that will be used in the JavaScript sort() method on the array of employee objects.
+        return function (a, b) {
+            return a = key(a), b = key(b), reversed * ((a > b) - (b > a));
+        } 
+     }
+
+    const handleSortChange = event => {
+        console.log(event.target.value);
+        if(event.target.value === 'firstNameAsc') {
+            setFilteredList(filteredList.sort(configureSort('name',false,function(a){return a.toUpperCase()},'first')));
+        } else if(event.target.value === 'firstNameDesc') {
+            setFilteredList(filteredList.sort(configureSort('name',true,function(a){return a.toUpperCase()},'first')));
+        } else if(event.target.value === 'lastNameAsc') {
+            setFilteredList(filteredList.sort(configureSort('name',false,function(a){return a.toUpperCase()},'last')));
+        } else if(event.target.value === 'lastNameDesc') {
+            setFilteredList(filteredList.sort(configureSort('name',true,function(a){return a.toUpperCase()},'last')));
+        }
+        console.log(filteredList);
     };
 
     //Handles when a user changes the field to be filtered.
@@ -110,6 +161,9 @@ function EmployeeTable() {
                 <Filter
                     handleFilterChange={handleFilterChange}
                     handleFilterField={handleFilterField}
+                />
+                <Sort
+                    handleSortChange={handleSortChange}
                 />
                 <Table 
                     data={filteredList} 
