@@ -5,13 +5,19 @@ function EmployeeProfile(props) {
         <>
             <Modal show={props.modalShow} onHide={props.handleModalClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{props.data.firstName} {props.data.lastName}</Modal.Title>
+                    <Modal.Title>
+                        <h2>{props.data.firstName} {props.data.lastName}</h2>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="show-grid">
                     <Container>
                         <Row>
                             <Col>
-                                <img src={props.data.photo} alt="Employee Photo"></img>
+                                <img 
+                                    src={props.data.photo} 
+                                    alt="Employee Photo"
+                                    className="modalImage"
+                                />
                             </Col>
                             <Col>
                                 <p>
@@ -22,9 +28,6 @@ function EmployeeProfile(props) {
                                 </p>
                                 <p>
                                     <strong>Cell: </strong>{props.data.cell}
-                                </p>
-                                <p>
-                                    <strong>Age: </strong>{props.data.age}
                                 </p>
                                 <p>
                                     <strong>DOB: </strong>
@@ -39,6 +42,8 @@ function EmployeeProfile(props) {
                                                 }
                                             )
                                     }
+                                    &nbsp;
+                                    ({props.data.age} Years)
                                 </p>
                             </Col>
                         </Row>

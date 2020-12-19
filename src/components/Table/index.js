@@ -3,7 +3,7 @@ import TableBody from "../TableBody";
 
 function Table(props) {
     return (
-        <table className="table">
+        <table className="table table-striped">
             <TableHead />
             <TableBody 
                 handleEmployeeDataChange={props.handleEmployeeDataChange} 

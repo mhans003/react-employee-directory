@@ -102,7 +102,7 @@ function EmployeeTable() {
     
     return (
         <div>
-            <Jumbotron text="Employee Table"/>
+            <Jumbotron text="Employee Directory"/>
             <Container>
                 <Limit 
                     handleLimitChange={handleLimitChange}
