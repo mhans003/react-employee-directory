@@ -2,12 +2,14 @@ import TableHead from "../TableHead";
 import TableBody from "../TableBody";
 
 function Table(props) {
-    console.log(props.data);
-
     return (
         <table className="table">
             <TableHead />
-            <TableBody data={props.data} />
+            <TableBody 
+                handleEmployeeDataChange={props.handleEmployeeDataChange} 
+                data={props.data} 
+                handleModalShow={props.handleModalShow}
+            />
         </table>
     );
 }

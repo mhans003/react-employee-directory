@@ -3,7 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import '@popperjs/core/lib/popper';
+//import 'bootstrap/js/dist/dropdown';
+//import 'jquery/dist/jquery';
+//import 'bootstrap'
+//import 'bootstrap/dist/js/bootstrap.bundle';
+//import 'bootstrap/js/dist/dropdown'
+//import 'bootstrap/dist/js/bootstrap';
+//import 'bootstrap/dist/js/bootstrap'
+import 'bootstrap/dist/css/bootstrap.css';
+import { Modal } from 'react-bootstrap';
 
 ReactDOM.render(
   <React.StrictMode>
