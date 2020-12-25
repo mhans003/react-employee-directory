@@ -3,7 +3,7 @@
 
 ## Deployed Application
 
-[React Employee Directory](https://budgettracker-mh.herokuapp.com/)
+[React Employee Directory](https://react-employee-directory-mh.herokuapp.com/)
 
 ![Screenshot of Application](./public/assets/images/empdirectory1.jpg)
 ![Screenshot of Application](./public/assets/images/empdirectory2.jpg)
