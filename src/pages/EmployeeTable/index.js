@@ -192,10 +192,12 @@ function EmployeeTable() {
                 <Limit 
                     handleLimitChange={handleLimitChange}
                 />
+                <hr/>
                 <Filter
                     handleFilterChange={handleFilterChange}
                     handleFilterField={handleFilterField}
                 />
+                <hr/>
                 <Sort
                     handleSortChange={handleSortChange}
                 />
