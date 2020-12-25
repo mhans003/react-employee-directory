@@ -1,19 +1,18 @@
 function Limit(props) {
     return (
         <div className="input-group input-group-lg">
-            <span className="input-group-text" id="addon-limit">Limit</span>
-            <input
-                onChange={props.handleLimitChange}
-                type="number" 
-                min="1" 
-                max="500" 
-                step="1"
-                className="form-control" 
-                placeholder="25" 
-                aria-label="Input number of results to limit" 
-                aria-describedby="addon-limit"
+            <select 
+                onChange={props.handleLimitChange} 
+                className="form-select form-control" 
+                id="select-filter-field"
+                aria-label="Input number of results to limit"
             >
-            </input>
+                <option value="25">No. Results</option>
+                <option value="25">25 Employees</option>
+                <option value="50">50 Employees</option>
+                <option value="100">100 Employees</option>
+                <option value="500">500 Employees</option>
+            </select>
         </div>
     );
 }

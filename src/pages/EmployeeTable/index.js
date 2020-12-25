@@ -30,6 +30,7 @@ function EmployeeTable() {
         setFilteredList(data);
     }
 
+    //When the page loads or when the limit changes, retrieve new random results.
     useEffect(() => {
         API.getEmployees(limit)
             .then(results => {
@@ -44,6 +45,7 @@ function EmployeeTable() {
 
     const handleLimitChange = event => {
         setEmployeeList([]);
+        console.log(event.target.value);
         setLimit(event.target.value);
     };
 
@@ -81,6 +83,11 @@ function EmployeeTable() {
      }
 
     const handleSortChange = event => {
+        //If the user selects the initial option, don't complete the function.
+        if(event.target.value === "") {
+            return;
+        }
+
         console.log(event.target.value);
         console.log(filteredList);
         //setFilteredList([]);
@@ -104,35 +111,6 @@ function EmployeeTable() {
         newFilteredList.sort(configureSort('name',isDesc,function(a){return a.toUpperCase()},whichName));
         setFilteredList(newFilteredList);
         console.log(filteredList);
-
-        /*
-        if(event.target.value === 'firstNameAsc') {
-            //setFilteredList(filteredList.sort(configureSort('name',false,function(a){return a.toUpperCase()},'first')));
-            //const newFilteredList = employeeList;
-            const newFilteredList = employeeList.map(employeeObject => Object.assign({}, employeeObject));
-            newFilteredList.sort(configureSort('name',false,function(a){return a.toUpperCase()},'first'));
-            setFilteredList(newFilteredList);
-            console.log(filteredList);
-        } else if(event.target.value === 'firstNameDesc') {
-            //setFilteredList(filteredList.sort(configureSort('name',true,function(a){return a.toUpperCase()},'first')));
-            const newFilteredList = employeeList.map(employeeObject => Object.assign({}, employeeObject));
-            newFilteredList.sort(configureSort('name',true,function(a){return a.toUpperCase()},'first'));
-            setFilteredList(newFilteredList);
-            console.log(filteredList);
-        } else if(event.target.value === 'lastNameAsc') {
-            //setFilteredList(filteredList.sort(configureSort('name',false,function(a){return a.toUpperCase()},'last')));
-            const newFilteredList = employeeList.map(employeeObject => Object.assign({}, employeeObject));
-            newFilteredList.sort(configureSort('name',false,function(a){return a.toUpperCase()},'last'));
-            setFilteredList(newFilteredList);
-            console.log(filteredList);
-        } else if(event.target.value === 'lastNameDesc') {
-            //setFilteredList(filteredList.sort(configureSort('name',true,function(a){return a.toUpperCase()},'last')));
-            const newFilteredList = employeeList.map(employeeObject => Object.assign({}, employeeObject));
-            newFilteredList.sort(configureSort('name',true,function(a){return a.toUpperCase()},'last'));
-            setFilteredList(newFilteredList);
-            console.log(filteredList);
-        }
-        */
     };
 
     //Handles when a user changes the field to be filtered.
