@@ -7,6 +7,7 @@ function Limit(props) {
                 type="number" 
                 min="1" 
                 max="500" 
+                step="1"
                 className="form-control" 
                 placeholder="25" 
                 aria-label="Input number of results to limit" 

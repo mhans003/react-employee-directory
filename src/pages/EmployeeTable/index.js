@@ -12,27 +12,29 @@ import "../../EmployeeTable.css"
 
 
 function EmployeeTable() {
-    //Set state 
+    //Set up state variables.
     const [limit, setLimit] = useState(25);
     const [error, setError] = useState("");
+
     const [employeeList, setEmployeeList] = useState([]);
-    //This will hold terms to filter
     const [filteredList, setFilteredList] = useState([]);
     const [employeeData, setEmployeeData] = useState([]);
 
     const [filterField, setFilterField] = useState("");
     const [filterValue, setFilterValue] = useState("");
 
-    const [sortedList, setSortedList] = useState([]);
-
     const [modalShow, setModalShow] = useState(false);
+
+    const handleInitialFilteredList = (data) => {
+        //Initially, set the filtered list to the initial results.
+        setFilteredList(data);
+    }
 
     useEffect(() => {
         API.getEmployees(limit)
             .then(results => {
+                handleInitialFilteredList(results.data.results);
                 setEmployeeList(results.data.results);
-                //Initially, set the filtered list to the initial results.
-                setFilteredList(results.data.results);
                 console.log(filteredList);
             })
             .catch(error => {
@@ -44,7 +46,6 @@ function EmployeeTable() {
         setEmployeeList([]);
         setLimit(event.target.value);
     };
-
 
     //Configure the function which will be passed into the sort() function depending on key selected to sort.
     const configureSort = function(fields, reversed, format, sub){
@@ -81,35 +82,85 @@ function EmployeeTable() {
 
     const handleSortChange = event => {
         console.log(event.target.value);
-        if(event.target.value === 'firstNameAsc') {
-            setFilteredList(filteredList.sort(configureSort('name',false,function(a){return a.toUpperCase()},'first')));
-        } else if(event.target.value === 'firstNameDesc') {
-            setFilteredList(filteredList.sort(configureSort('name',true,function(a){return a.toUpperCase()},'first')));
-        } else if(event.target.value === 'lastNameAsc') {
-            setFilteredList(filteredList.sort(configureSort('name',false,function(a){return a.toUpperCase()},'last')));
-        } else if(event.target.value === 'lastNameDesc') {
-            setFilteredList(filteredList.sort(configureSort('name',true,function(a){return a.toUpperCase()},'last')));
-        }
         console.log(filteredList);
+        //setFilteredList([]);
+
+        let whichName;
+        let isDesc = false;
+
+        if(event.target.value === 'firstNameAsc' || event.target.value === 'firstNameDesc') {
+            whichName = 'first';
+            if(event.target.value === 'firstNameDesc') {
+                isDesc = true;
+            }
+        } else if(event.target.value === 'lastNameAsc' || event.target.value === 'lastNameDesc') {
+            whichName = 'last';
+            if(event.target.value === 'lastNameDesc') {
+                isDesc = true;
+            }
+        }
+
+        const newFilteredList = employeeList.map(employeeObject => Object.assign({}, employeeObject));
+        newFilteredList.sort(configureSort('name',isDesc,function(a){return a.toUpperCase()},whichName));
+        setFilteredList(newFilteredList);
+        console.log(filteredList);
+
+        /*
+        if(event.target.value === 'firstNameAsc') {
+            //setFilteredList(filteredList.sort(configureSort('name',false,function(a){return a.toUpperCase()},'first')));
+            //const newFilteredList = employeeList;
+            const newFilteredList = employeeList.map(employeeObject => Object.assign({}, employeeObject));
+            newFilteredList.sort(configureSort('name',false,function(a){return a.toUpperCase()},'first'));
+            setFilteredList(newFilteredList);
+            console.log(filteredList);
+        } else if(event.target.value === 'firstNameDesc') {
+            //setFilteredList(filteredList.sort(configureSort('name',true,function(a){return a.toUpperCase()},'first')));
+            const newFilteredList = employeeList.map(employeeObject => Object.assign({}, employeeObject));
+            newFilteredList.sort(configureSort('name',true,function(a){return a.toUpperCase()},'first'));
+            setFilteredList(newFilteredList);
+            console.log(filteredList);
+        } else if(event.target.value === 'lastNameAsc') {
+            //setFilteredList(filteredList.sort(configureSort('name',false,function(a){return a.toUpperCase()},'last')));
+            const newFilteredList = employeeList.map(employeeObject => Object.assign({}, employeeObject));
+            newFilteredList.sort(configureSort('name',false,function(a){return a.toUpperCase()},'last'));
+            setFilteredList(newFilteredList);
+            console.log(filteredList);
+        } else if(event.target.value === 'lastNameDesc') {
+            //setFilteredList(filteredList.sort(configureSort('name',true,function(a){return a.toUpperCase()},'last')));
+            const newFilteredList = employeeList.map(employeeObject => Object.assign({}, employeeObject));
+            newFilteredList.sort(configureSort('name',true,function(a){return a.toUpperCase()},'last'));
+            setFilteredList(newFilteredList);
+            console.log(filteredList);
+        }
+        */
     };
 
     //Handles when a user changes the field to be filtered.
     const handleFilterField = event => {
         //Set the filter field to the field selected.
         setFilterField(event.target.value);
-    }
+        console.log(`Filter Field: ${filterField}`);
+    };
 
     //Handle when a user changes the "contains" input.
     const handleFilterChange = event => {
         //Don't filter the results if a field is not selected.
+
         if(!filterField) {
             setFilteredList(employeeList);
             return;
         }
 
+        if(!event.target.value) {
+            setFilteredList(employeeList);
+            return;
+        }
+
+        console.log(`Filter Field: ${filterValue}`);
+
         //Get the value to be searched for.
         setFilterValue(event.target.value);
-        
+
         console.log(`Current value of filter field: ${filterField}`);
 
         //Clear the old filtered list
@@ -118,12 +169,17 @@ function EmployeeTable() {
         //Create the newly filtered list using the field to be filtered and the typed value input.
         if(filterField === "firstName") {
             console.log(`Searching for ${filterValue}`);
-            const newFilteredList = employeeList.filter(employee => employee.name.first.includes(filterValue));
+            const newFilteredList = employeeList.filter(employee => employee.name.first.toLowerCase().includes(filterValue.toLowerCase()));
             setFilteredList(newFilteredList);
             console.log(filteredList);
             console.log(employeeList);
-        }
-        
+        } else if(filterField === "lastName") {
+            console.log(`Searching for ${filterValue}`);
+            const newFilteredList = employeeList.filter(employee => employee.name.last.toLowerCase().includes(filterValue.toLowerCase()));
+            setFilteredList(newFilteredList);
+            console.log(filteredList);
+            console.log(employeeList);
+        } 
     };
 
     //This will handle the change of the highlighted employee.
