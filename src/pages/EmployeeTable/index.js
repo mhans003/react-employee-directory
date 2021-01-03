@@ -8,7 +8,7 @@ import Limit from "../../components/Limit";
 import EmployeeProfile from "../../components/EmployeeProfile";
 import Filter from "../../components/Filter";
 import Sort from "../../components/Sort";
-import "../../EmployeeTable.css"
+import "../../EmployeeTable.css";
 
 
 function EmployeeTable() {
